@@ -73,3 +73,31 @@ tabsContainer.addEventListener('click', e => {
   clicked.classList.add('operations__tab--active');
   document.querySelector(`.operations__content--${clicked.dataset.tab}`).classList.add('operations__content--active');
 });
+
+//menu fade animation
+const nav = document.querySelector('.nav');
+
+const menuChangeOpacity = function (opacity) {
+  // console.log(this);
+  // console.log(e.currentTarget);
+  // console.log(e.target);
+  return e => {
+    if (e.target.classList.contains('nav__link')) {
+      const link = e.target;
+      // const siblings = nav.querySelectorAll('.nav__link');
+      const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+      // const logo = nav.querySelector('img');
+      const logo = link.closest('.nav').querySelector('img');
+      siblings.forEach(sibling => {
+        if (sibling !== link) sibling.style.opacity = opacity; // this; //"this" in now opacity
+      });
+      logo.style.opacity = opacity; // this;
+    }
+  };
+};
+
+// nav.addEventListener('mouseover', menuChangeOpacity.bind(0.5));
+nav.addEventListener('mouseover', menuChangeOpacity(0.5));
+
+// nav.addEventListener('mouseout', menuChangeOpacity.bind(1));
+nav.addEventListener('mouseout', menuChangeOpacity(1));
