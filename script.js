@@ -101,3 +101,21 @@ nav.addEventListener('mouseover', menuChangeOpacity(0.5));
 
 // nav.addEventListener('mouseout', menuChangeOpacity.bind(1));
 nav.addEventListener('mouseout', menuChangeOpacity(1));
+
+//sticky navigation
+const header = document.querySelector('.header');
+const rootMarginPercent = (nav.getBoundingClientRect().height / window.innerHeight) * 100;
+
+const stickyNav = entries => {
+  const [entry] = entries;
+  // console.log(entry);
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${rootMarginPercent}%`
+});
+headerObserver.observe(header);
