@@ -164,3 +164,73 @@ const imgObserver = new IntersectionObserver(loadImg, {
 
 // imgTargets.forEach(img => imgObserver.observe(img));
 imgObserver.observe(section1);
+
+//slider
+const slider = () => {
+  const slides = document.querySelectorAll('.slide');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotsContainer = document.querySelector('.dots');
+  let currentSlide = 0;
+  const slidesCount = slides.length;
+
+  const createDots = () => {
+    slides.forEach((_, i) => {
+      dotsContainer.insertAdjacentHTML('beforeend', `<button class="dots__dot" data-slide="${i}"></button>`);
+    });
+  };
+
+  const selectDot = slide => {
+    document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'));
+    document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active');
+  };
+
+  const changeSlide = () => {
+    if (currentSlide === slidesCount) currentSlide = 0;
+    if (currentSlide === -1) currentSlide = slidesCount - 1;
+    slides.forEach((slide, i) => {
+      slide.style.transform = `translateX(${(i - currentSlide) * 100}%)`;
+    });
+  };
+
+  const init = () => {
+    createDots();
+    changeSlide();
+    selectDot(currentSlide);
+  };
+
+  init();
+
+  btnRight.addEventListener('click', () => {
+    currentSlide++;
+    changeSlide();
+    selectDot(currentSlide);
+  });
+
+  btnLeft.addEventListener('click', () => {
+    currentSlide--;
+    changeSlide();
+    selectDot(currentSlide);
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') {
+      currentSlide++;
+      changeSlide();
+      selectDot(currentSlide);
+    } else if (e.key === 'ArrowLeft') {
+      currentSlide--;
+      changeSlide();
+      selectDot(currentSlide);
+    }
+  });
+
+  dotsContainer.addEventListener('click', e => {
+    if (e.target.classList.contains('dots__dot')) {
+      currentSlide = e.target.dataset.slide;
+      changeSlide();
+      selectDot(currentSlide);
+    }
+  });
+};
+slider();
